@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World API</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Hello World API</h1>
+    <div class="container">
+        <form id="languageForm">
+            <label for="language">Select a language:</label>
+            <select id="language" name="language">
+                <option value="english">English</option>
+                <option value="french">French</option>
+                <option value="hindi">Hindi</option>
+            </select>
+            <button type="submit">Get Greeting</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('languageForm');
+const resultDiv = document.getElementById('result');
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const language = form.language.value;
+
+    try {
+        const response = await fetch(`/hello?language=${language}`);
+        const data = await response.json();
+        resultDiv.textContent = data.message;
+
+        // Hide the result
+        resultDiv.classList.add('hidden');
+
+        // Delay showing the result for a smoother transition
+        setTimeout(() => {
+            // Remove the 'hidden' class to trigger the fade-in animation
+            resultDiv.classList.remove('hidden');
+        }, 50); // A small delay for the fade-in effect
+    } catch (error) {
+        resultDiv.textContent = 'An error occurred while fetching data.';
+    }
+});
+
+    </script>
+</body>
+</html>
